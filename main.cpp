@@ -5,35 +5,29 @@
 
 using namespace std;
 
-void getfiles(string dir, string &files, string types)
-{
+void getfiles(string dir, string &files, string types) {
     DIR *dp = opendir(dir.c_str());
 
     struct dirent *entry;
 
-    while ((entry = readdir(dp)) != NULL)
-    {
+    while ((entry = readdir(dp)) != NULL) {
         string name(entry->d_name);
 
-        if ((name != ".") && (name != ".."))
-        {
+        if ((name != ".") && (name != "..")) {
             string full = dir + "/" + name;
 
             // If it's not a directory, append it to the string list.
             // If it is, then dive into that directory.
-            if (entry->d_type != DT_DIR)
-            {
+            if (entry->d_type != DT_DIR) {
                 // Check if the extension matches.
                 std::string::size_type idx = name.rfind(".");
 
                 // Make sure that an extension was found.
-                if (idx != std::string::npos)
-                {
+                if (idx != std::string::npos) {
                     std::string extension = name.substr(idx + 1);
 
                     // Check if the extension is in the types list.
-                    if (types.find(extension) != std::string::npos)
-                    {
+                    if (types.find(extension) != std::string::npos) {
                         files = files + name + "\n";
                     }
                 }
@@ -44,8 +38,7 @@ void getfiles(string dir, string &files, string types)
     }
 }
 
-int main()
-{
+int main() {
     // How to get a string/sentence with spaces
     string dir = "";
     cout << "Please enter a directory to scan:\n>";
@@ -60,8 +53,7 @@ int main()
     cout << "What file extensions to search for (CSV like the default)? (default: flac, mp3, m4a, ogg)";
     getline(cin, types);
 
-    if (strlen(types.c_str()) == 0)
-    {
+    if (strlen(types.c_str()) == 0) {
         types = types_default;
     }
 
